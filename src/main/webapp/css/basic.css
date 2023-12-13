@@ -1,0 +1,11 @@
+﻿
+/*Các xử lí mã định dạng cho thẻ HTML*/
+/*Mã định dạng này được sử dụng cho file basic.html*/
+
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+body{
+	background: #fffffe;
+	color: #555;
+	font-family: 'Quicksand', sans-serif;
+	font-size: 15px;
+}
