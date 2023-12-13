@@ -38,7 +38,7 @@ public class Profiles extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		view(request, response);
 
-		
+		// abc
 	}
 	protected void view(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
