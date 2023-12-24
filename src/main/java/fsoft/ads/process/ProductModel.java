@@ -122,41 +122,50 @@ public class ProductModel {
 
 	    if (res.size() > 0) {
 	        // Lấy danh sách ResultSet
-	        ResultSet rsProducts = res.get(0);
-	        ResultSet rsTotal = res.get(1);
+	        ResultSet rs = res.get(0);
+	       
 
 	        try {
 	            // Duyệt qua tất cả các bản ghi trong ResultSet sản phẩm
-	            while (rsProducts.next()) {
+	            while (rs.next()) {
 	                ProductObject item = new ProductObject();
 
-	                item.setProduct_id(rsProducts.getInt("product_id"));
-	                item.setProduct_name(rsProducts.getString("product_name"));
-	                item.setProduct_size(rsProducts.getString("product_size"));
-	                item.setProduct_color(rsProducts.getString("product_color"));
-	                item.setProduct_price(rsProducts.getInt("product_price"));
-	                item.setProduct_unit(rsProducts.getString("product_unit"));
-	                item.setProduct_description(rsProducts.getString("product_description"));
-	                item.setProduct_sex(rsProducts.getInt("product_sex"));
-	                item.setProduct_quantity(rsProducts.getInt("product_quantity"));
-	                item.setProduct_sold(rsProducts.getInt("product_sold"));
-	                item.setProduct_deleted(rsProducts.getInt("product_deleted"));
-	                item.setManufacturer_id(rsProducts.getInt("manufacturer_id"));
-	                item.setCategory_id(rsProducts.getInt("category_id"));
-	                item.setProduct_last_modified(rsProducts.getString("product_last_modified"));
+	                item.setProduct_id(rs.getInt("product_id"));
+	                item.setProduct_name(rs.getString("product_name"));
+	                item.setProduct_size(rs.getString("product_size"));
+	                item.setProduct_color(rs.getString("product_color"));
+	                item.setProduct_price(rs.getInt("product_price"));
+	                item.setProduct_unit(rs.getString("product_unit"));
+	                item.setProduct_description(rs.getString("product_description"));
+	                item.setProduct_sex(rs.getInt("product_sex"));
+	                item.setProduct_quantity(rs.getInt("product_quantity"));
+	                item.setProduct_sold(rs.getInt("product_sold"));
+	                item.setProduct_deleted(rs.getInt("product_deleted"));
+	                item.setManufacturer_id(rs.getInt("manufacturer_id"));
+	                item.setCategory_id(rs.getInt("category_id"));
+	                item.setProduct_last_modified(rs.getString("product_last_modified"));
 
 	                list.add(item);
 
 	                // Đặt giá trị số ngày vào HashMap theo ID của sản phẩm
-	                days.put(rsProducts.getInt("product_id"), rsProducts.getInt("days"));
+	                days.put(rs.getInt("product_id"), rs.getInt("days"));
 	            }
 
-	            // Lấy tổng số bản ghi từ ResultSet tổng
-	            if (rsTotal.next()) {
-	                total = rsTotal.getInt("total");
-	            }
 	        } catch (SQLException e) {
 	            e.printStackTrace();
+	        }
+
+            // Lấy tổng số bản ghi từ ResultSet tổng
+	        rs = res.get(1);
+	        if(rs != null) {
+	            try {
+					if (rs.next()) {
+					    total = rs.getInt("total");
+					}
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 	        }
 	    }
 

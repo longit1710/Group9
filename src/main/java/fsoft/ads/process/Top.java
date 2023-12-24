@@ -3,6 +3,7 @@ package fsoft.ads.process;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -17,15 +18,15 @@ import fsoft.objects.ProductObject;
 /**
  * Servlet implementation class chart
  */
-@WebServlet("/product/chart")
-public class Chart extends HttpServlet {
+@WebServlet("/product/top")
+public class Top extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final String CONTENT_TYPE = "text/html; charset=utf-8";
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Chart() {
+    public Top() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -89,13 +90,15 @@ public class Chart extends HttpServlet {
 	
 	private StringBuilder viewChart(ArrayList<ProductObject> list) {
 		
+		list.sort(Comparator.comparingInt(ProductObject::getProduct_sold).reversed()
+                .thenComparing(ProductObject::getProduct_name));
 		StringBuilder names = new StringBuilder();
-		StringBuilder quantities = new StringBuilder();
+		StringBuilder sold = new StringBuilder();
 		list.forEach(item->{
-			quantities.append(item.getProduct_quantity());
+			sold.append(item.getProduct_sold());
 			names.append("'"+item.getProduct_name()+"'");
 			if(list.indexOf(item)<list.size()-1) {
-				quantities.append(",");
+				sold.append(",");
 				names.append(",");
 			}
 		});
@@ -105,14 +108,14 @@ public class Chart extends HttpServlet {
 		StringBuilder tmp = new StringBuilder();
 		tmp.append("<div class=\"card\">");
 		tmp.append("<div class=\"card-body\">");
-		tmp.append("<h5 class=\"card-title\">Biểu đồ Sản phẩm</h5>");
+		tmp.append("<h5 class=\"card-title\">Thống kê 10 sản phẩm bán chạy nhất</h5>");
 		tmp.append("<div id=\"barChart\"></div>");
 		tmp.append("<script>");
 		tmp.append("document.addEventListener(\"DOMContentLoaded\", () => {");
 		tmp.append("new ApexCharts(document.querySelector(\"#barChart\"), {");
 		tmp.append("series: [{");
-		tmp.append("name: 'Số lượng Sản phẩm',");
-		tmp.append("data: ["+quantities+"]");
+		tmp.append("name: 'Số lượng đã bán',");
+		tmp.append("data: ["+sold+"]");
 		tmp.append("}],");
 		tmp.append("chart: {type: 'bar', height: 350, fontFamily: 'Tahoma, sans-serif'},");
 		tmp.append("plotOptions: {bar: {borderRadius: 4, horizontal: true,}},");

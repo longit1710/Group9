@@ -76,7 +76,7 @@ public class ProductLibrary {
 			list.append(
 					"<td><a href=\"#\" class=\"btn btn-danger btn-sm\" data-bs-toggle=\"modal\"  data-bs-target=\"#delProduct"
 							+ item.getProduct_id() + "\" > <i class=\"bi bi-trash3\"></i> </a></td>");
-			list.append(ProductLibrary.getDelModel(item, true));
+			list.append(ProductLibrary.getDelModel(item, false));
 			list.append("</tr>");
 		});
 
@@ -129,29 +129,35 @@ public class ProductLibrary {
 		list.append("</thead>");
 
 		list.append("<tbody>");
-
+		
 		items.forEach(item -> {
+			String value ="";
+			int sex = item.getProduct_sex();
+			switch(sex) {
+				case 1:
+					value += "Male";
+					break;
+				case 2:
+					value += "Female";
+					break;
+				default:
+			}
 			list.append("<tr>");
 			list.append("<th scope=\"row\">" + item.getProduct_id() + "</th>");
 			list.append("<td>" + item.getProduct_name() + "</td>");
 			list.append("<td>" + item.getProduct_size() + "</td>");
 			list.append("<td>" + item.getProduct_color() + "</td>");
-			list.append("<td>" + item.getProduct_sex() + "</td>");
+			list.append("<td>" + value + "</td>");
 			list.append("<td>" + item.getProduct_last_modified() + "</td>");
 			///
 			list.append("<td><a href=\"/Group9/product/profiles?id=" + item.getProduct_id()
 					+ "&res\"class=\"btn btn-primary btn-sm\" > <i class=\"bi bi-reply\"></i> </a></td>");
 
 			/////
-			if(item.getProduct_id() != similar.getProduct_id()) {
-				list.append(
-						"<td><a href=\"#\" class=\"btn btn-danger btn-sm\" data-bs-toggle=\"modal\"  data-bs-target=\"#delProduct"
-								+ item.getProduct_id() + "\" > <i class=\"bi bi-trash3\"></i> </a></td>");
-				list.append(ProductLibrary.getDelModel(item, false));
-			} else {
-				list.append(
-						"<td><a href=\"#\" class=\"btn btn-secondary btn-sm disabled\"  > <i class=\"bi bi-dash-circle\"></i> </a></td>");
-			}
+			list.append(
+					"<td><a href=\"#\" class=\"btn btn-danger btn-sm\" data-bs-toggle=\"modal\"  data-bs-target=\"#delProduct"
+							+ item.getProduct_id() + "\" > <i class=\"bi bi-trash3\"></i> </a></td>");
+			list.append(ProductLibrary.getDelModel(item, true));
 			
 	
 			list.append("</tr>");
@@ -306,97 +312,55 @@ public class ProductLibrary {
 
 		StringBuilder tmp = new StringBuilder();
 		tmp.append("<div class=\"card\">");
-		tmp.append("<div class=\"col-lg-10\">");
-		//tmp.append("<div class=\"card-body\">");
-		tmp.append("<h5 class=\"card-title\">Line Chart</h5>");
-		tmp.append("");
-		tmp.append("<div id=\"lineChart\"></div>");
-		tmp.append("");
+		tmp.append("<div class=\"card-body col-lg-10\">");
+		tmp.append("<h5 class=\"card-title\">Biểu đồ Sản phẩm</h5>");
+		tmp.append("<div id=\"barChart\"></div>");
 		tmp.append("<script>");
 		tmp.append("document.addEventListener(\"DOMContentLoaded\", () => {");
-		tmp.append("new ApexCharts(document.querySelector(\"#lineChart\"), {");
+		tmp.append("new ApexCharts(document.querySelector(\"#barChart\"), {");
 		tmp.append("series: [{");
-		tmp.append("name: 'Số lượng sản phẩm',");
-		tmp.append("data: ["+quantities+"]");
+		tmp.append("name: 'Số lượng Sản phẩm',");
+		tmp.append("data: [" + quantities + "]");
 		tmp.append("}],");
-		tmp.append("chart: {");
-		tmp.append("height: 350,");
-		tmp.append("type: 'line',");
-		tmp.append("zoom: {");
-		tmp.append("enabled: false");
+		tmp.append("chart: {type: 'bar', height: 350, fontFamily: 'Tahoma, sans-serif'},");
+		tmp.append("plotOptions: {bar: {borderRadius: 4, horizontal: true,}},");
+		tmp.append("dataLabels: {enabled: false},");
+		tmp.append("");
+		tmp.append("xaxis: {");
+		tmp.append("categories: [" + names + "],");
+		tmp.append("labels: {");
+		tmp.append("show: true,");
+		tmp.append("style: {");
+		tmp.append("colors: [],");
+		tmp.append("fontSize: '18px',");
+		tmp.append("fontFamily: 'Helvetica, Arial, sans-serif',");
+		tmp.append("fontWeight: 600,");
+		tmp.append("cssClass: 'apexcharts-xaxis-label',");
+		tmp.append("},");
 		tmp.append("}");
 		tmp.append("},");
-		tmp.append("dataLabels: {");
-		tmp.append("enabled: false");
+		tmp.append("");
+		tmp.append("yaxis: {");
+		tmp.append("show: true,");
+		tmp.append("labels: {");
+		tmp.append("show: true,");
+		tmp.append("align: 'right',");
+		tmp.append("minWidth: 250,");
+		tmp.append("maxWidth: 400,");
+		tmp.append("style: {");
+		tmp.append("colors: [],");
+		tmp.append("fontSize: '15px',");
+		tmp.append("fontFamily: 'Helvetica, Arial, sans-serif',");
+		tmp.append("fontWeight: 400,");
+		tmp.append("cssClass: 'apexcharts-yaxis-label',");
 		tmp.append("},");
-		tmp.append("stroke: {");
-		tmp.append("curve: 'straight'");
 		tmp.append("},");
-		tmp.append("grid: {");
-		tmp.append("row: {");
-		tmp.append("colors: ['#f3f3f3', 'transparent'],");
-		tmp.append("opacity: 0.5");
-		tmp.append("},");
-		tmp.append("},");
-		tmp.append("xaxis: {");
-		tmp.append("categories: ["+names+"],");
 		tmp.append("}");
 		tmp.append("}).render();");
 		tmp.append("});");
 		tmp.append("</script>");
 		tmp.append("</div>");
-		//tmp.append("</div>");
 		tmp.append("</div>");
-//		tmp.append("<div class=\"card\">");
-//		tmp.append("<div class=\"card-body\">");
-//		tmp.append("<h5 class=\"card-title\">Biểu đồ Sản phẩm</h5>");
-//		tmp.append("<div id=\"barChart\"></div>");
-//		tmp.append("<script>");
-//		tmp.append("document.addEventListener(\"DOMContentLoaded\", () => {");
-//		tmp.append("new ApexCharts(document.querySelector(\"#barChart\"), {");
-//		tmp.append("series: [{");
-//		tmp.append("name: 'Số lượng Sản phẩm',");
-//		tmp.append("data: [" + quantities + "]");
-//		tmp.append("}],");
-//		tmp.append("chart: {type: 'bar', height: 350, fontFamily: 'Tahoma, sans-serif'},");
-//		tmp.append("plotOptions: {bar: {borderRadius: 4, horizontal: true,}},");
-//		tmp.append("dataLabels: {enabled: false},");
-//		tmp.append("");
-//		tmp.append("xaxis: {");
-//		tmp.append("categories: [" + names + "],");
-//		tmp.append("labels: {");
-//		tmp.append("show: true,");
-//		tmp.append("style: {");
-//		tmp.append("colors: [],");
-//		tmp.append("fontSize: '18px',");
-//		tmp.append("fontFamily: 'Helvetica, Arial, sans-serif',");
-//		tmp.append("fontWeight: 600,");
-//		tmp.append("cssClass: 'apexcharts-xaxis-label',");
-//		tmp.append("},");
-//		tmp.append("}");
-//		tmp.append("},");
-//		tmp.append("");
-//		tmp.append("yaxis: {");
-//		tmp.append("show: true,");
-//		tmp.append("labels: {");
-//		tmp.append("show: true,");
-//		tmp.append("align: 'right',");
-//		tmp.append("minWidth: 250,");
-//		tmp.append("maxWidth: 400,");
-//		tmp.append("style: {");
-//		tmp.append("colors: [],");
-//		tmp.append("fontSize: '15px',");
-//		tmp.append("fontFamily: 'Helvetica, Arial, sans-serif',");
-//		tmp.append("fontWeight: 400,");
-//		tmp.append("cssClass: 'apexcharts-yaxis-label',");
-//		tmp.append("},");
-//		tmp.append("},");
-//		tmp.append("}");
-//		tmp.append("}).render();");
-//		tmp.append("});");
-//		tmp.append("</script>");
-//		tmp.append("</div>");
-//		tmp.append("</div>");
 
 		return tmp;
 	}

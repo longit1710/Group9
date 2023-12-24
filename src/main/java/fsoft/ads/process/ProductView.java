@@ -82,7 +82,7 @@ public class ProductView extends HttpServlet {
 		out.append("<main id=\"main\" class=\"main\">");
 
 		out.append("<div class=\"pagetitle d-flex justify-content-between\">");
-		out.append("<h1>Người sử dụng</h1>");
+		out.append("<h1>Thông tin sản phẩm</h1>");
 		out.append("<nav class\"ms-auto\">");
 		out.append("<ol class=\"breadcrumb\">");
 		out.append("<li class=\"breadcrumb-item\"><a href=\"/Group9/view\"><i class=\"bi bi-house\"></i></a></li>");

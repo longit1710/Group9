@@ -78,13 +78,16 @@ public class Profiles extends HttpServlet {
 				getServletContext().setAttribute("CPool", pc.getCP());
 			}
 			ProductObject ePro = null;
-			ProductImpl p = new ProductImpl(cp);
+
 			// tìm tham số phục hồi xoá
 			String res = request.getParameter("res");
 			if (res != null) {
 				ePro = new ProductObject();
 				ePro.setProduct_id(id);
-				boolean result = p.editProduct(ePro, EDIT_TYPE.RESTORE);
+				String date = Utilities_Date.getDate();
+				ePro.setProduct_last_modified(date);
+				System.out.println("ID phuc hoi: "+id);
+				boolean result = pc.editProduct(ePro, EDIT_TYPE.RESTORE);
 				if (result) {
 					response.sendRedirect("/Group9/product/view?trash");
 				} else {
@@ -346,43 +349,49 @@ public class Profiles extends HttpServlet {
 			}
 
 			boolean result = false;
+			
 			// Lấy thông tin trên giao diện
 			String date = Utilities_Date.getDate();
-
-			// lấy thông tin đối tượng lưu trữ mới
-			nPro.setProduct_last_modified(date);
 			String name = request.getParameter("txtName");
-			String des = request.getParameter("txtDescription");
-			String size = request.getParameter("txtSize");
-			String color = request.getParameter("txtColor");
-			String unit = request.getParameter("txtUnit");
-			String sex = request.getParameter("txtSex");
-			String price = request.getParameter("txtPrice");
-			String quantity = request.getParameter("txtQuantity");
-			
-			nPro.setProduct_name(Utilities_Helper.encode(name));
-			nPro.setProduct_description(des);
-			nPro.setProduct_size(size);
-			nPro.setProduct_color(color);
-			nPro.setProduct_unit(unit);
-			nPro.setProduct_sex(Integer.parseInt(sex));
-			nPro.setProduct_price(Integer.parseInt(price));
-			nPro.setProduct_quantity(Integer.parseInt(quantity));
-			
-			// Thực hiện update
-			result = pc.editProduct(nPro, EDIT_TYPE.NORMAL);
-			
-			
-			//xoa
-			String delete = request.getParameter("del");
-			if (delete != null && id != nPro.getProduct_id()) {
+			if(name != null && !name.equalsIgnoreCase("")) {
+				// lấy thông tin đối tượng lưu trữ mới
 				nPro.setProduct_last_modified(date);
-				if (delete.equalsIgnoreCase("abs")) {
-					result = pc.delProduct(nPro);
+				nPro.setProduct_name(name);
+				String des = request.getParameter("txtDescription");
+				String size = request.getParameter("txtSize");
+				String color = request.getParameter("txtColor");
+				String unit = request.getParameter("txtUnit");
+				String sex = request.getParameter("txtSex");
+				String price = request.getParameter("txtPrice");
+				String quantity = request.getParameter("txtQuantity");
+				
+				nPro.setProduct_name(Utilities_Helper.encode(name));
+				nPro.setProduct_description(des);
+				nPro.setProduct_size(size);
+				nPro.setProduct_color(color);
+				nPro.setProduct_unit(unit);
+				nPro.setProduct_sex(Integer.parseInt(sex));
+				nPro.setProduct_price(Integer.parseInt(price));
+				nPro.setProduct_quantity(Integer.parseInt(quantity));
+				
+				// Thực hiện update
+				result = pc.editProduct(nPro, EDIT_TYPE.NORMAL);
+			} else {
+				System.out.println("Xu ly xoa");
+				String del = request.getParameter("del");
+				if (del != null) {
+					nPro.setProduct_last_modified(date);
+					if (del.equalsIgnoreCase("trash")) {
+						// Thực hiện xóa lưu thùng rác
+						result = pc.editProduct(nPro, EDIT_TYPE.TRASH);				
+					} else if (del.equalsIgnoreCase("abs")) {
+						result = pc.delProduct(nPro);
+					}
 				}
+				System.out.println("Del: "+del);
 			}
-
-			
+				
+			System.out.println("result: "+ result);
 			
 			pc.releaseConnection();
 			// Trả kết quả
@@ -395,7 +404,6 @@ public class Profiles extends HttpServlet {
 				}
 
 			} else {
-
 				response.sendRedirect("/Group9/product/view?err=notok");
 			}
 		}

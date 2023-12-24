@@ -47,7 +47,6 @@ public class ProductImpl extends BasicImpl implements Product {
 			pre.setInt(11, item.getManufacturer_id());
 			pre.setInt(12, item.getCategory_id());
 			pre.setString(13, item.getProduct_last_modified());
-			
 
 			return this.add(pre);
 
@@ -92,16 +91,21 @@ public class ProductImpl extends BasicImpl implements Product {
 			sql.append("product_name=?, product_description=?, product_size=?, ");
 			sql.append("product_color=?, product_unit=?, product_sex=?, ");
 			sql.append("product_price=?, product_quantity=? ");
-
 			break;
 		case TRASH:
 			sql.append("product_deleted=?, product_last_modified=? ");
 			break;
 		case RESTORE:
-			sql.append("product_deleted=0, product_last_modified=? ");
+			sql.append("product_deleted=?, product_last_modified=? ");
+			break;
 		default:
 		}
 		sql.append("WHERE product_id=?");
+		// In log để kiểm tra giá trị của các biến
+		System.out.println("SQL: " + sql.toString());
+		System.out.println("product_deleted: " + item.getProduct_deleted());
+		System.out.println("product_last_modified: " + item.getProduct_last_modified());
+		System.out.println("product_id: " + item.getProduct_id());
 
 		// Biên dịch
 		try {
@@ -118,15 +122,20 @@ public class ProductImpl extends BasicImpl implements Product {
 				pre.setInt(8, item.getProduct_quantity());
 				pre.setInt(9, item.getProduct_id());
 				break;
-
 			case TRASH:
-				pre.setInt(1, item.getProduct_id());
+				pre.setInt(1, 1);
+				pre.setString(2, item.getProduct_last_modified());
+				pre.setInt(3, item.getProduct_id());
 				break;
 			case RESTORE:
-				pre.setInt(1, item.getProduct_id());
+				pre.setInt(1, 0);
+				pre.setString(2, item.getProduct_last_modified());
+				pre.setInt(3, item.getProduct_id());
 				break;
+
 			default:
 			}
+
 			return this.edit(pre);
 
 		} catch (SQLException e) {
@@ -145,15 +154,10 @@ public class ProductImpl extends BasicImpl implements Product {
 
 	@Override
 	public boolean delProduct(ProductObject item) {
-		if (!this.isEmpty(item)) {
-			return false;
-		}
-
 		String sql = "DELETE FROM tblproduct WHERE product_id=?";
 		try {
 			PreparedStatement pre = this.con.prepareStatement(sql);
 			pre.setInt(1, item.getProduct_id());
-
 			return this.del(pre);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -166,27 +170,6 @@ public class ProductImpl extends BasicImpl implements Product {
 			e.printStackTrace();
 		}
 		return false;
-	}
-
-	private boolean isEmpty(ProductObject item) {
-		boolean flag = true;
-		StringBuilder sql = new StringBuilder();
-		sql.append("SELECT product_id FROM tblproduct WHERE product_id=").append(item.getProduct_id()).append("; ");
-		ArrayList<ResultSet> res = this.getRes(sql.toString());
-		for (ResultSet rs : res) {
-			if (rs != null) {
-				try {
-					if (rs.next()) {
-						return false;
-					}
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
-
-		return flag;
 	}
 
 	@Override
@@ -235,11 +218,12 @@ public class ProductImpl extends BasicImpl implements Product {
 
 		// select lấy tổng số bản ghi
 
-		sql.append("SELECT COUNT(product_id) AS TOTAL FROM tblproduct ").append(this.createConditions(similar)).append(";");
-		
+		sql.append("SELECT COUNT(product_id) AS TOTAL FROM tblproduct ").append(this.createConditions(similar))
+				.append(";");
+
 		return this.getRes(sql.toString());
 	}
-	
+
 	private StringBuilder createConditions(ProductObject similar) {
 		StringBuilder tmp = new StringBuilder();
 
@@ -257,7 +241,8 @@ public class ProductImpl extends BasicImpl implements Product {
 		if (key != null && !key.equalsIgnoreCase("")) {
 			tmp.append(" AND (");
 			tmp.append("(product_name LIKE '%" + key + "%') OR ");
-			tmp.append("(product_description LIKE '%" + key + "%') ");
+			tmp.append("(product_color LIKE '%" + key + "%') OR ");
+			tmp.append("(product_sex LIKE '%" + key + "%') ");
 
 			tmp.append(") ");
 		}
@@ -267,8 +252,7 @@ public class ProductImpl extends BasicImpl implements Product {
 
 		return tmp;
 	}
-	
-	
+
 	public ArrayList<ProductObject> getProductObjects(ProductObject similar, byte total) {
 
 		ArrayList<ProductObject> items = new ArrayList<>();
