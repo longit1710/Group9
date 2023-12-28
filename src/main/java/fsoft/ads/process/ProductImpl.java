@@ -3,7 +3,6 @@ package fsoft.ads.process;
 import java.util.*;
 
 import org.javatuples.Quartet;
-import org.javatuples.Triplet;
 
 import fsoft.*;
 import fsoft.ads.basic.BasicImpl;
@@ -21,9 +20,11 @@ public class ProductImpl extends BasicImpl implements Product {
 
 	@Override
 	public boolean addProduct(ProductObject item) {
+		//Kiểm tra xem sản phẩm đã tồn tại trong CSDL hay chưa
 		if (isExisting(item)) {
 			return false;
 		}
+		//Sử dụng StringBuilder để xây dựng câu lệnh SQL
 		StringBuilder sql = new StringBuilder();
 
 		sql.append("INSERT INTO tblproduct( ");
@@ -33,6 +34,7 @@ public class ProductImpl extends BasicImpl implements Product {
 		sql.append("product_deleted, manufacturer_id, category_id, product_last_modified) ");
 		sql.append(" VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)");
 		try {
+			//Thực hiện câu lệnh SQL sử dụng PreparedSatatement
 			PreparedStatement pre = this.con.prepareStatement(sql.toString());
 			pre.setString(1, item.getProduct_name());
 			pre.setString(2, item.getProduct_size());
@@ -101,11 +103,11 @@ public class ProductImpl extends BasicImpl implements Product {
 		default:
 		}
 		sql.append("WHERE product_id=?");
-		// In log để kiểm tra giá trị của các biến
-		System.out.println("SQL: " + sql.toString());
-		System.out.println("product_deleted: " + item.getProduct_deleted());
-		System.out.println("product_last_modified: " + item.getProduct_last_modified());
-		System.out.println("product_id: " + item.getProduct_id());
+//		// In log để kiểm tra giá trị của các biến
+//		System.out.println("SQL: " + sql.toString());
+//		System.out.println("product_deleted: " + item.getProduct_deleted());
+//		System.out.println("product_last_modified: " + item.getProduct_last_modified());
+//		System.out.println("product_id: " + item.getProduct_id());
 
 		// Biên dịch
 		try {
@@ -177,7 +179,7 @@ public class ProductImpl extends BasicImpl implements Product {
 		String sql = "SELECT * FROM tblproduct WHERE product_id=?";
 
 		return this.get(sql, id);
-	}
+	} //trả về một ResultSet chứa thông tin của một sản phẩm dựa trên product_id
 
 	@Override
 	public ResultSet getProduct(int id, String name) {
@@ -222,7 +224,7 @@ public class ProductImpl extends BasicImpl implements Product {
 				.append(";");
 
 		return this.getRes(sql.toString());
-	}
+	} //Trả về một danh sách ArrayList của ResultSet chứa danh sách sản phẩm dựa trên thông tin bộ lọc và sắp xếp
 
 	private StringBuilder createConditions(ProductObject similar) {
 		StringBuilder tmp = new StringBuilder();
@@ -303,5 +305,5 @@ public class ProductImpl extends BasicImpl implements Product {
 			}
 		}
 		return items;
-	}
+	} //Trả về danh sách các đối tượng ProductObject dựa trên thông tin bộ lọc và số lượng cần lấy.
 }

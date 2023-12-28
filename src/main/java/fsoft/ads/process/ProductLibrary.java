@@ -54,10 +54,10 @@ public class ProductLibrary {
 			int sex = item.getProduct_sex();
 			switch(sex) {
 				case 1:
-					value += "Male";
+					value += "Nam";
 					break;
 				case 2:
-					value += "Female";
+					value += "Nữ";
 					break;
 				default:
 			}
@@ -135,10 +135,10 @@ public class ProductLibrary {
 			int sex = item.getProduct_sex();
 			switch(sex) {
 				case 1:
-					value += "Male";
+					value += "Nam";
 					break;
 				case 2:
-					value += "Female";
+					value += "Nữ";
 					break;
 				default:
 			}

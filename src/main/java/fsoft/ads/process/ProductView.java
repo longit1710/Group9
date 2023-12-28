@@ -74,8 +74,8 @@ public class ProductView extends HttpServlet {
 		//lấy cấu trúc
 		Quartet<ProductObject, Short, Byte, PRO_ORDER> infos = new Quartet<>(similar, page, (byte) 10, PRO_ORDER.ID);
 		ArrayList<String> view = pc.viewProducts(infos);
-		//tạo đối tượng xuất nội dung
 		
+		//tạo đối tượng xuất nội dung	
 		PrintWriter out = response.getWriter();
 
 		
@@ -117,28 +117,36 @@ public class ProductView extends HttpServlet {
 				"<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>");
 		out.append("</div>");
 		out.append("<div class=\"modal-body\">");
+		
 		out.append("<div class=\"row mb-3\">");
 		out.append("<div class=\"col-sm-6\">");
 		out.append("<label for=\"product_name\" class=\"form-label\">Tên sản phẩm</label>");
 		out.append("<input type=\"text\" class=\"form-control\" id=\"product_name\" name=\"txtName\" required>");
 		out.append("<div class=\"invalid-feedback\">Thiếu thông tin tên sản phẩm</div>");
 		out.append("</div>");
-
+		
 		out.append("<div class=\"col-sm-6\">");
+		out.append("<label for=\"product_description\" class=\"form-label\">Mô tả sản phẩm</label>");
+		out.append("<input type=\"text\" class=\"form-control\" id=\"product_description\" name=\"txtDes\" required>");
+		out.append("<div class=\"invalid-feedback\">Thiếu thông tin mô tả sản phẩm</div>");
+		out.append("</div>");
+		out.append("</div>");
+		
+
+		out.append("<div class=\"row mb-3\">");
+		out.append("<div class=\"col-sm-4\">");
 		out.append("<label for=\"product_color\" class=\"form-label\">Màu sắc</label>");
 		out.append("<input type=\"text\" class=\"form-control\" id=\"product_color\" name=\"txtColor\">");
 		out.append("<div class=\"invalid-feedback\">Thiếu thông tin màu sắc sản phẩm</div>");
 		out.append("</div>");
-		out.append("</div>");
-
-		out.append("<div class=\"row mb-3\">");
-		out.append("<div class=\"col-sm-6\">");
+		
+		out.append("<div class=\"col-sm-4\">");
 		out.append("<label for=\"product_unit\" class=\"form-label\">Đơn vị</label>");
 		out.append("<input type=\"text\" class=\"form-control\" id=\"product_unit\" name=\"txtUnit\"required>");
 		out.append("<div class=\"invalid-feedback\">Thiếu thông tin đơn vị sản phẩm</div>");
 		out.append("</div>");
 
-		out.append("<div class=\"col-sm-6\">");
+		out.append("<div class=\"col-sm-4\">");
 		out.append("<label for=\"product_price\" class=\"form-label\">Giá</label>");
 		out.append("<input type=\"text\" class=\"form-control\" id=\"product_price\" name=\"txtPrice\"required>");
 		out.append("<div class=\"invalid-feedback\">Thiếu thông tin giá sản phẩm</div>");
@@ -240,6 +248,7 @@ public class ProductView extends HttpServlet {
 
 		// Lấy thông tin trên giao diện
 		String name = request.getParameter("txtName");
+		String des = request.getParameter("txtDes");
 		String color = request.getParameter("txtColor");
 		String unit = request.getParameter("txtUnit");
 		int price = Integer.parseInt(request.getParameter("txtPrice"));
@@ -254,6 +263,7 @@ public class ProductView extends HttpServlet {
 		// Tạo đối tượng lưu trữ mới
 		ProductObject nPro = new ProductObject();
 		nPro.setProduct_name(name);
+		nPro.setProduct_description(des);
 		nPro.setProduct_color(color);
 		nPro.setProduct_unit(unit);
 		nPro.setProduct_price(price);

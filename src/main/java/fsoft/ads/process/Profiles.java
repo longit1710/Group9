@@ -137,7 +137,7 @@ public class Profiles extends HttpServlet {
 		out.append("<div class=\"col-xl-3\">");
 		out.append("<div class=\"card\">");
 		out.append("<div class=\"card-body profile-card pt-4 d-flex flex-column align-items-center\">");
-		out.append("<img src=\"/Group9/img/profile-img.jpg\" alt=\"Profile\" class=\"rounded-circle\">");
+		out.append("<img src=\"/Group9/img/aodaido.jpg\" alt=\"Profile\" class=\"rounded-circle\">");
 		out.append("<h2>" + name + "</h2>");
 		out.append("<h3>" + description + "</h3>");
 		out.append("<div class=\"social-links mt-2\">");
@@ -223,7 +223,7 @@ public class Profiles extends HttpServlet {
 		out.append("<div class=\"row mb-3\">");
 		out.append("<label for=\"profileImage\" class=\"col-md-4 col-lg-3 col-form-label\">Hình ảnh</label>");
 		out.append("<div class=\"col-md-8 col-lg-9\">");
-		out.append("<img src=\"/Group9/img/profile-img.jpg\" alt=\"Profile\">");
+		out.append("<img src=\"/Group9/img/aodaido.jpg\" alt=\"Profile\">");
 		out.append("<div class=\"pt-2\">");
 		out.append(
 				"<a href=\"#\" class=\"btn btn-primary btn-sm\" title=\"Tải ảnh mới\"><i class=\"bi bi-upload\"></i></a>");
