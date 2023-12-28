@@ -59,7 +59,12 @@ public class ProductView extends HttpServlet {
 		//tìm từ khóa
 		String key = request.getParameter("keyword");
 		String saveKey = (key != null && !key.equalsIgnoreCase("")) ? key.trim() : "";
-		
+		if(saveKey.equalsIgnoreCase("Nam")) {
+			saveKey = "1";
+		}
+		if(saveKey.equalsIgnoreCase("Nữ")) {
+			saveKey = "2";
+		}
 		//tạo đối tượng lưu trữ thông tin bộ lọc
 		ProductObject similar = new ProductObject();
 		similar.setProduct_id(10);
@@ -80,24 +85,21 @@ public class ProductView extends HttpServlet {
 
 		
 		out.append("<main id=\"main\" class=\"main\">");
-<<<<<<< HEAD
 
 		out.append("<div class=\"pagetitle d-flex justify-content-between\">");
 		out.append("<h1>Thông tin sản phẩm</h1>");
 		out.append("<nav class\"ms-auto\">");
-=======
-		
-		out.append("<div class=\"pagetitle d-flex\">");
-		out.append("<nav class=\"ms-auto\">");
->>>>>>> c7826c87df3e4e38f77f4e6f657f4de041e075ec
 		out.append("<ol class=\"breadcrumb\">");
-		out.append("<li class=\"breadcrumb-item\"><a href=\"/Group9/view\"><i class=\"bi bi-house-fill\"></i></a></li>");
+		out.append("<li class=\"breadcrumb-item\"><a href=\"/Group9/view\"><i class=\"bi bi-house\"></i></a></li>");
 		out.append("<li class=\"breadcrumb-item\">Sản phẩm</li>");
 		out.append("<li class=\"breadcrumb-item active\">Danh sách</li>");
 		out.append("</ol>");
 		out.append("</nav>");
 		out.append("</div><!-- End Page Title -->");
 
+		out.append("<section class=\"section\">");
+		out.append("<div class=\"row\">");
+		out.append("<div class=\"col-lg-12\">");
 
 		out.append("<div class=\"card\">");
 		out.append("<div class=\"card-body\">");
@@ -215,6 +217,15 @@ public class ProductView extends HttpServlet {
 
 		out.append("</div>");// card-body
 		out.append("</div>");// card
+
+		// biểu đồ
+
+		out.append(view.get(1));
+
+		out.append("</div>");// col-lg-12
+
+		out.append("</div>");
+		out.append("</section>");
 
 		out.append("</main><!-- End #main -->");
 		
