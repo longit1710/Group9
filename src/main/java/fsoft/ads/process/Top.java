@@ -47,23 +47,33 @@ public class Top extends HttpServlet {
 		
 		//abc
 		PrintWriter out = response.getWriter();
+		out.append("<!doctype html>");
+		out.append("<html lang=\"en\">");
+		out.append("<head>");
+		out.append("<meta charset=\"utf-8\">");
+		out.append("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">");
+		out.append("<title>Product View</title>");
+		out.append("<link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN\" crossorigin=\"anonymous\">");
+		out.append("<link href=\"/Group9/css/all.min.css\" rel=\"stylesheet\" type=\"text/css\" />");
+		out.append("<link href=\"/Group9/css/apexcharts.css\" rel=\"stylesheet\" type=\"text/css\" />");
+		out.append("<script src=\"/Group9/js/apexcharts.min.js\" language=\"javascript\"></script>");
+		out.append("</head>");
+		out.append("<body>");
 		
-		out.append("<main id=\"main\" class=\"main\">");
-		
-		out.append("<div class=\"pagetitle d-flex\">");
-		out.append("<nav class=\"ms-auto\">");
-		out.append("<ol class=\"breadcrumb\">");
-		out.append("<li class=\"breadcrumb-item\"><a href=\"/Group9/view\"><i class=\"bi bi-house-fill\"></i></a></li>");
-		out.append("<li class=\"breadcrumb-item\">Biểu đồ</li>");
-		out.append("<li class=\"breadcrumb-item active\">Sản phẩm</li>");
-		out.append("</ol>");
-		out.append("</nav>");
-		out.append("</div><!-- End Page Title -->");
+		out.append("<div class=\"container-lg\">");
+		out.append("<div class=\"card my-4\">");
+		out.append("<div class=\"card-header text-bg-primary\"></div>");
+		out.append("<div class=\"card-body\">");
 		ProductImpl pro = new ProductImpl(cp);
 		ArrayList<ProductObject> list = pro.getProductObjects(null, (byte)10);
 
 		out.append(this.viewChart(list));
-		out.append("</main><!-- End #main -->");
+		
+		out.append("<script src=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js\" integrity=\"sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL\" crossorigin=\"anonymous\"></script>");
+		out.append("<script src=\"/Group9/js/apexcharts.min.js\" language=\"javascript\"></script>");
+		out.append("<script src=\"https://cdn.jsdelivr.net/npm/apexcharts@3.35.1/dist/apexcharts.min.js\"></script>");
+		out.append("</body>");
+		out.append("</html>");
 		// Tham chiếu tìm kiếm header
 		RequestDispatcher header = request.getRequestDispatcher("/header?pos=productview");
 		if (header != null) {

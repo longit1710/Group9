@@ -1,6 +1,8 @@
 package fsoft.ads.process;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 
 import org.javatuples.*;
@@ -30,7 +32,7 @@ public class ProductLibrary {
 		list.append("<table class=\"table table-striped table-hover table-sm \">");
 		list.append("<thead>");
 		list.append("<tr>");
-		list.append("<th scope=\"col\">#</th>");
+		//list.append("<th scope=\"col\">#</th>");
 		list.append("<th scope=\"col\">Tên sản phẩm</th>");
 		list.append("<th scope=\"col\">Kích cỡ</th>");
 		list.append("<th scope=\"col\">Màu sắc</th>");
@@ -61,12 +63,14 @@ public class ProductLibrary {
 					break;
 				default:
 			}
-			list.append("<th scope=\"row\">" + item.getProduct_id() + "</th>");
+			int price = item.getProduct_price();
+			String formatPrice = ProductLibrary.formatNumberWithComma(price);
+			//list.append("<th scope=\"row\">" + item.getProduct_id() + "</th>");
 			list.append("<td class=\"align-middle\">" + item.getProduct_name() + "</td>");
 			list.append("<td class=\"align-middle\">" + item.getProduct_size() + "</td>");
 			list.append("<td class=\"align-middle\">" + item.getProduct_color() + "</td>");
 			list.append("<td class=\"align-middle\">" + value + "</td>");
-			list.append("<td class=\"align-middle\">" + item.getProduct_price() + "</td>");
+			list.append("<td class=\"align-middle\">" + formatPrice + "</td>");
 			list.append("<td><a href=\"/Group9/product/profiles?id=" + item.getProduct_id()
 					+ "&t=over\"class=\"btn btn-outline-primary btn-sm\" > <i class=\"bi bi-eye-fill\"></i> </a></td>");
 			list.append("<td><a href=\"/Group9/product/profiles?id=" + item.getProduct_id()
@@ -131,6 +135,7 @@ public class ProductLibrary {
 		list.append("<tbody>");
 		
 		items.forEach(item -> {
+			
 			String value ="";
 			int sex = item.getProduct_sex();
 			switch(sex) {
@@ -364,6 +369,11 @@ public class ProductLibrary {
 
 		return tmp;
 	}
+	public static String formatNumberWithComma(int number) {
+        // Sử dụng DecimalFormat để thêm dấu chấm sau mỗi 3 chữ số
+        DecimalFormat decimalFormat = new DecimalFormat("#,###");
+        return decimalFormat.format(number);
+    }
 	
 
 }

@@ -77,7 +77,7 @@ public class ProductView extends HttpServlet {
 		short page = Utilities.getPageParam(request, "p"); //lấy tham số phân trang
 				
 		//lấy cấu trúc
-		Quartet<ProductObject, Short, Byte, PRO_ORDER> infos = new Quartet<>(similar, page, (byte) 10, PRO_ORDER.ID);
+		Quartet<ProductObject, Short, Byte, PRO_ORDER> infos = new Quartet<>(similar, page, (byte) 10, PRO_ORDER.NAME);
 		ArrayList<String> view = pc.viewProducts(infos);
 		
 		//tạo đối tượng xuất nội dung	
