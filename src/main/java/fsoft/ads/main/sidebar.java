@@ -140,6 +140,24 @@ public class sidebar extends HttpServlet {
 		out.append("</li><!-- End Charts Nav -->");
 		
 
+		out.append("<li class=\"nav-item\">");
+		out.append(
+				"<a class=\"nav-link collapsed\" data-bs-target=\"#notes-nav\" data-bs-toggle=\"collapse\" href=\"#\">");
+		out.append("<i class=\"bi bi-bar-chart\"></i><span>Nhập/Xuất</span><i class=\"bi bi-chevron-down ms-auto\"></i>");
+		out.append("</a>");
+		out.append("<ul id=\"notes-nav\" class=\"nav-content collapse \" data-bs-parent=\"#sidebar-nav\">");
+		out.append("<li>");
+		out.append("<a href=\"/Group9/product/chart\">");
+		out.append("<i class=\"bi bi-circle\"></i><span>Nhập</span>");
+		out.append("</a>");
+		out.append("</li>");
+		out.append("<li>");
+		out.append("<a href=\"/Group9/product/chart\">");
+		out.append("<i class=\"bi bi-circle\"></i><span>Xuất</span>");
+		out.append("</a>");
+		out.append("</li>");
+		out.append("</ul>");
+		out.append("</li><!-- End Charts Nav -->");
 		
 		out.append("<li class=\"nav-heading\">Pages</li>");
 
