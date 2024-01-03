@@ -135,6 +135,9 @@ public class sidebar extends HttpServlet {
 		out.append("<a href=\"/Group9/product/top\">");
 		out.append("<i class=\"bi bi-circle\"></i><span>Top 10</span>");
 		out.append("</a>");
+		out.append("<a href=\"/Group9/product/chart\">");
+		out.append("<i class=\"bi bi-circle\"></i><span>Biểu đồ</span>");
+		out.append("</a>");
 		out.append("</li>");
 		out.append("</ul>");
 		out.append("</li><!-- End Charts Nav -->");
